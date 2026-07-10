@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from datetime import date as DateType
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
@@ -59,8 +61,29 @@ def create_transaction(
 
 
 @router.get("", response_model=list[schemas.TransactionResponse])
-def list_transactions(db: Session = Depends(get_db)):
-    return crud.get_transactions(db=db)
+def list_transactions(
+    category_id: int | None = Query(default=None, gt=0),
+    transaction_type: schemas.TransactionType | None = Query(
+        default=None,
+        alias="type",
+    ),
+    start_date: DateType | None = None,
+    end_date: DateType | None = None,
+    db: Session = Depends(get_db),
+):
+    if start_date is not None and end_date is not None and start_date > end_date:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="start_date must be before or equal to end_date",
+        )
+
+    return crud.get_transactions(
+        db=db,
+        category_id=category_id,
+        transaction_type=transaction_type,
+        start_date=start_date,
+        end_date=end_date,
+    )
 
 
 @router.get("/{transaction_id}", response_model=schemas.TransactionResponse)

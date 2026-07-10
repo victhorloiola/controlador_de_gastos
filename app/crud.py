@@ -1,3 +1,5 @@
+from datetime import date as DateType
+
 from sqlalchemy.orm import Session
 
 from app import models, schemas
@@ -31,8 +33,28 @@ def create_transaction(db: Session, transaction: schemas.TransactionCreate):
     return db_transaction
 
 
-def get_transactions(db: Session):
-    return db.query(models.Transaction).all()
+def get_transactions(
+    db: Session,
+    category_id: int | None = None,
+    transaction_type: schemas.TransactionType | None = None,
+    start_date: DateType | None = None,
+    end_date: DateType | None = None,
+):
+    query = db.query(models.Transaction)
+
+    if category_id is not None:
+        query = query.filter(models.Transaction.category_id == category_id)
+
+    if transaction_type is not None:
+        query = query.filter(models.Transaction.type == transaction_type)
+
+    if start_date is not None:
+        query = query.filter(models.Transaction.date >= start_date)
+
+    if end_date is not None:
+        query = query.filter(models.Transaction.date <= end_date)
+
+    return query.all()
 
 
 def get_transaction(db: Session, transaction_id: int):
