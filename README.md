@@ -142,19 +142,25 @@ o banco local de desenvolvimento.
 
 ## Deploy
 
-O projeto esta preparado para deploy no Render usando o arquivo `render.yaml`.
+A API esta publicada no Render:
+
+```txt
+https://controlador-de-gastos-vk8l.onrender.com
+```
+
+Documentacao online:
+
+```txt
+https://controlador-de-gastos-vk8l.onrender.com/docs
+```
+
+O projeto usa o arquivo `render.yaml` para configurar o deploy.
 
 Configuracao usada:
 
 ```txt
 Build Command: pip install -r requirements.txt
 Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-```
-
-Depois do deploy, a documentacao da API fica disponivel em:
-
-```txt
-https://seu-link-do-render.onrender.com/docs
 ```
 
 ## O que aprendi
