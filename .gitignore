@@ -13,3 +13,6 @@ htmlcov/
 
 .vscode/
 .idea/
+
+tmp/
+output/
