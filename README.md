@@ -140,6 +140,23 @@ python -m pytest
 Os testes usam um banco SQLite em memoria para nao misturar dados de teste com
 o banco local de desenvolvimento.
 
+## Deploy
+
+O projeto esta preparado para deploy no Render usando o arquivo `render.yaml`.
+
+Configuracao usada:
+
+```txt
+Build Command: pip install -r requirements.txt
+Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+Depois do deploy, a documentacao da API fica disponivel em:
+
+```txt
+https://seu-link-do-render.onrender.com/docs
+```
+
 ## O que aprendi
 
 - Estruturar uma API com FastAPI
@@ -156,4 +173,3 @@ o banco local de desenvolvimento.
 - Impedir categorias duplicadas
 - Adicionar paginacao em transacoes
 - Criar filtro por mes
-- Fazer deploy da API
